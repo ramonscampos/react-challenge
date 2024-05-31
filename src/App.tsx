@@ -38,17 +38,17 @@ export function App() {
   }
 
   return (
-    <div className="flex h-screen items-center justify-center bg-background">
+    <div className="flex h-screen items-center justify-center bg-background p-4">
       <form
-        className="flex min-w-[500px] flex-col gap-6"
+        className="flex flex-col gap-6 md:min-w-[512px]"
         onSubmit={handleSubmit(handleBreakify)}
       >
-        <div className="mb-6 flex flex-col gap-12 text-center text-8xl font-bold text-emerald-50">
+        <div className="mb-6 flex flex-col gap-12 text-center text-7xl font-bold text-emerald-50 md:text-8xl">
           <Elemented word={firstName || 'Breaking'} />
           <Elemented word={lastName || 'Bad'} />
         </div>
 
-        <div className="flex gap-4">
+        <div className="flex flex-wrap gap-4 md:flex-nowrap">
           <div className="flex w-full flex-col">
             <label htmlFor="first-name" className="mb-1 text-foreground">
               First Name
