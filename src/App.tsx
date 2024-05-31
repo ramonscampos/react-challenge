@@ -1,32 +1,38 @@
 import './globals.css'
 
 import { useState } from 'react'
+import { SubmitHandler, useForm } from 'react-hook-form'
 
 import { Button } from './components/ui/button'
 import { Elemented } from './components/ui/Elemented'
 import { Input } from './components/ui/input'
 
-type Errors = {
-  [key: string]: string
+type Inputs = {
+  firstName: string
+  lastName: string
 }
 
 export function App() {
+  const {
+    register,
+    handleSubmit,
+    formState: { errors },
+  } = useForm<Inputs>()
+
   const [firstName, setFirstName] = useState('')
   const [lastName, setLastName] = useState('')
-  const [errors, setErrors] = useState({} as Errors)
 
-  const handleBreakify = () => {
-    if (!firstName || !lastName) {
-      setErrors({
-        firstName: !firstName ? 'First name is required' : '',
-        lastName: !lastName ? 'Last name is required' : '',
-      })
-    }
+  const handleBreakify: SubmitHandler<Inputs> = (data) => {
+    setFirstName(data.firstName)
+    setLastName(data.lastName)
   }
 
   return (
     <div className="flex h-screen items-center justify-center bg-zinc-900">
-      <div className="flex flex-col gap-6">
+      <form
+        className="flex min-w-[500px] flex-col gap-6"
+        onSubmit={handleSubmit(handleBreakify)}
+      >
         <div className="mb-6 flex flex-col gap-12 text-center text-8xl font-bold text-emerald-50">
           <Elemented word={firstName || 'Breaking'} />
           <Elemented word={lastName || 'Bad'} />
@@ -38,10 +44,8 @@ export function App() {
               First Name
             </label>
             <Input
-              name="first-name"
-              value={firstName}
-              onChange={(e) => setFirstName(e.target.value)}
-              errorMessage={errors.firstName}
+              {...register('firstName', { required: 'First name is required' })}
+              errorMessage={errors.firstName?.message}
             />
           </div>
 
@@ -50,18 +54,14 @@ export function App() {
               Last Name
             </label>
             <Input
-              name="last-name"
-              value={lastName}
-              onChange={(e) => setLastName(e.target.value)}
-              errorMessage={errors.lastName}
+              {...register('lastName', { required: 'Last name is required' })}
+              errorMessage={errors.lastName?.message}
             />
           </div>
         </div>
 
-        <Button className="w-full" onClick={handleBreakify}>
-          Breakify
-        </Button>
-      </div>
+        <Button className="w-full">Breakify</Button>
+      </form>
     </div>
   )
 }
