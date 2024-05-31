@@ -23,7 +23,7 @@ export const Elemented = ({ word }: ElementedProps) => {
             .includes(substring.toLowerCase())
         ) {
           const highlighted = (
-            <span>
+            <span className="text-foreground">
               {word.substring(0, i)}
               <span className="bg-emerald-800 p-2">{substring}</span>
               {word.substring(i + j)}
